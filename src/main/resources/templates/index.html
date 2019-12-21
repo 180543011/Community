@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索话题">
+                    <label><input type="text" class="form-control" placeholder="搜索话题"></label>
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
@@ -36,6 +36,7 @@
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
+                <!--/*@thymesVar id="loginUser" type="com.zhiling.z.community.model.User"*/-->
                 <li th:if="${session.loginUser == null}">
                     <a href="https://github.com/login/oauth/authorize?client_id=6c768cb63121dd2a162a&
                         redirect_uri=http://localhost:8080/callback&scope=user&state=1">

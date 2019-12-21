@@ -15,6 +15,9 @@ import java.util.Objects;
 @Component
 public class GitHubProvider {
 
+    /**
+     *  通过AccessTokenDTO获取AccessToken码
+     */
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -35,6 +38,9 @@ public class GitHubProvider {
         }
     }
 
+    /**
+     *  通过accessToken获取GitHub用户信息
+     */
     public GitHubUser getUser(String accessToken){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()

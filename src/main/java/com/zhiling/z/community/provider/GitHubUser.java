@@ -3,6 +3,7 @@ package com.zhiling.z.community.provider;
 import org.springframework.stereotype.Component;
 
 /**
+ *  GitHub对象所需值
  * @Author zlhl
  * @Date 2019/12/21
  * @Version V1.0

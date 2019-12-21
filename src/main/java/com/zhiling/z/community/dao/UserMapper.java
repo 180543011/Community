@@ -3,6 +3,8 @@ package com.zhiling.z.community.dao;
 import com.zhiling.z.community.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,4 +24,11 @@ public interface UserMapper {
             "#{accountId}, #{token}, #{gmtCreate}, #{gmtModify})")
     void insertUser(User user);
 
+    /**
+     *  通过token获取用户信息
+     * @param token token值
+     * @return 用户对象
+     */
+    @Select("SELECT * FROM users WHERE token = #{token}")
+    User getUserByToken(@Param("token") String token);
 }
