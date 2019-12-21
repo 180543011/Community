@@ -45,9 +45,9 @@ public class GitHubProvider {
             String string = Objects.requireNonNull(response.body()).string();
             return JSON.parseObject(string, GitHubUser.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            //可能有延时异常
+            return null;
         }
-        return null;
     }
 
 }
