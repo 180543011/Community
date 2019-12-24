@@ -11,10 +11,12 @@
 
 ## 工具
 [Git](https://git-scm.com/)
+[Flyway](https://flywaydb.org/documentation/maven/)
 
 ## jar
 [fastJson](https://mvnrepository.com/artifact/com.alibaba/fastjson)
 [okHttp](https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp)
+[lombok](https://projectlombok.org/setup/maven)
 
 ## sql脚本
 ```sql
@@ -30,5 +32,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UQ_User_userName` (`userName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
-
+```
+```bash
+mvn flyway:migrate
 ```
