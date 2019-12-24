@@ -3,7 +3,7 @@ package com.zhiling.z.community.controller;
 import com.zhiling.z.community.dto.AccessTokenDTO;
 import com.zhiling.z.community.model.User;
 import com.zhiling.z.community.provider.GitHubProvider;
-import com.zhiling.z.community.provider.GitHubUser;
+import com.zhiling.z.community.dto.GitHubUser;
 import com.zhiling.z.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

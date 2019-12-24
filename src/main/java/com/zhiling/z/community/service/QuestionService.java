@@ -1,5 +1,6 @@
 package com.zhiling.z.community.service;
 
+import com.zhiling.z.community.dto.PageDTO;
 import com.zhiling.z.community.model.Question;
 
 import java.util.List;
@@ -26,8 +27,16 @@ public interface QuestionService {
 
     /**
      *  返回所有question集合
+     *  并对pageDTO对象属性进行处理
+     * @param pageDTO 分页对象
      * @return question集合
      */
-    List<Question> listQuestion();
+    List<Question> listQuestion(PageDTO pageDTO);
+
+    /**
+     *  统计总记录数
+     * @return 记录数
+     */
+    int countQuestion();
 
 }

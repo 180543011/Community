@@ -31,8 +31,11 @@
     <select id="getQuestionById" resultMap="QuestionDTO">
         SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` WHERE q.id = #{id}
     </select>
-    <select id="listQuestion" resultMap="QuestionDTO" >
-        SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id`
+    <select id="listQuestion" resultMap="QuestionDTO" parameterType="com.zhiling.z.community.dto.PageDTO" >
+        SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` LIMIT #{index},#{pageSize}
+    </select>
+    <select id="countQuestion" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM questions
     </select>
 
 

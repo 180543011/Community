@@ -1,9 +1,10 @@
 package com.zhiling.z.community.dao;
 
+import com.zhiling.z.community.dto.PageDTO;
 import com.zhiling.z.community.model.Question;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -32,8 +33,15 @@ public interface QuestionMapper {
 
     /**
      *  返回所有question集合
+     * @param pageDTO 分页对象
      * @return question集合
      */
-    List<Question> listQuestion();
+    List<Question> listQuestion(PageDTO pageDTO);
+
+    /**
+     *  统计总记录数
+     * @return 记录数
+     */
+    int countQuestion();
 
 }

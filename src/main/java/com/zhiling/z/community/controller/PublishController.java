@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ *  publish页面控制层
  * @Author zlhl
  * @Date 2019/12/23
  * @Version V1.0
  **/
 @Controller
 public class PublishController {
-
     private QuestionService questionService;
 
     @Autowired
@@ -26,11 +26,17 @@ public class PublishController {
         this.questionService = questionService;
     }
 
+    /**
+     *  publish get请求
+     */
     @GetMapping("/publish.html")
     public String toPublish(){
         return "publish";
     }
 
+    /**
+     * post请求 保存问题发布
+     */
     @PostMapping("/publish.html")
     public String doPublish(Question question, HttpServletRequest request, Model model){
         User loginUser = (User) request.getSession().getAttribute("loginUser");

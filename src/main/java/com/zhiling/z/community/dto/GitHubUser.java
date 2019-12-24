@@ -1,4 +1,4 @@
-package com.zhiling.z.community.provider;
+package com.zhiling.z.community.dto;
 
 import lombok.Data;
 

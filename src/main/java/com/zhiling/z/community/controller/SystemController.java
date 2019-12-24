@@ -1,5 +1,6 @@
 package com.zhiling.z.community.controller;
 
+import com.zhiling.z.community.dto.PageDTO;
 import com.zhiling.z.community.model.Question;
 import com.zhiling.z.community.model.User;
 import com.zhiling.z.community.service.QuestionService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +35,13 @@ public class SystemController {
         this.questionService = questionService;
     }
 
+    /**
+     *  主页
+     */
     @RequestMapping(path = {"/", "/index", "/index.html"})
-    public String toIndex(HttpServletRequest request, Model model){
+    public String toIndex(HttpServletRequest request, Model model,
+                          @RequestParam(value = "index", required = false, defaultValue = "1") Integer pageIndex,
+                          @RequestParam(value = "size", required = false, defaultValue = "1") Integer pageSize){
         //获取session中是否有登录对象
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         //判断是否登录成功
@@ -55,10 +62,27 @@ public class SystemController {
                 }
             }
         }
+        //创建Page对象
+        PageDTO pageDTO = new PageDTO();
+        //判断页面行数是否超标
+        if (pageSize<=0){
+            pageSize = 10;
+        }
+        pageDTO.setPageSize(pageSize);
+        pageDTO.setCounts(questionService.countQuestion());
+        pageDTO.setPageCount((pageDTO.getCounts() -1)/ pageDTO.getPageSize()+1);
+        //判断index是否超标
+        if (pageIndex<=0){
+            pageIndex = 1;
+        }
+        if(pageIndex>pageDTO.getPageCount()){
+            pageIndex = pageDTO.getPageCount();
+        }
+        pageDTO.setPageIndex(pageIndex);
         //获取问题信息
-        List<Question> questions = questionService.listQuestion();
+        List<Question> questions = questionService.listQuestion(pageDTO);
         model.addAttribute("questions", questions);
-
+        model.addAttribute("pageDTO", pageDTO);
         return "index";
     }
 

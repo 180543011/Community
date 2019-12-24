@@ -2,6 +2,7 @@ package com.zhiling.z.community.provider;
 
 import com.alibaba.fastjson.JSON;
 import com.zhiling.z.community.dto.AccessTokenDTO;
+import com.zhiling.z.community.dto.GitHubUser;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
