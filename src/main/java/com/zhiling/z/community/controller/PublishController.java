@@ -45,7 +45,7 @@ public class PublishController {
     /**
      * post请求 保存问题发布
      */
-    @PostMapping("/publish.html")
+    @PostMapping("/publish.html/0")
     public String doPublish(Question question, HttpServletRequest request, Model model){
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         //判断是否接收表单数据
