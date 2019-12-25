@@ -36,3 +36,9 @@ CREATE TABLE `users` (
 ```bash
 mvn flyway:migrate
 ```
+### 注意(我已屏蔽上传)
+src/main/resources/config/accessToken.properties
+cookie.maxAge=1800
+github.client.id=？
+github.client.secret=？
+github.client.uri=？
