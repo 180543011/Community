@@ -27,6 +27,41 @@
         INSERT INTO questions(title, description, tag, creator, gmtCreate, gmtModify) VALUES(#{title},
             #{description}, #{tag}, #{creator}, #{gmtCreate}, #{gmtModify})
     </insert>
+    <update id="updateQuestion">
+        UPDATE questions
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="tag != null">
+                tag = #{tag},
+            </if>
+            <if test="gmtModify != 0">
+                <if test="gmtModify != null">
+                    gmtModify = #{gmtModify},
+                </if>
+            </if>
+            <if test="viewCount != 0">
+                <if test="viewCount != null">
+                    viewCount = #{viewCount},
+                </if>
+            </if>
+            <if test="commentCount != 0">
+                <if test="commentCount != null">
+                    commentCount = #{commentCount},
+                </if>
+            </if>
+            <if test="likeCount != 0">
+                <if test="likeCount != null">
+                    likeCount = #{likeCount},
+                </if>
+            </if>
+        </set>
+            WHERE id = #{id}
+    </update>
 
     <select id="getQuestionById" resultMap="QuestionDTO">
         SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` WHERE q.id = #{id}

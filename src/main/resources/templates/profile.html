@@ -28,7 +28,7 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading" th:text="*{question.title}">震惊！某男子怎么么</h4>
-                        <a>点击查看详情</a><br>
+                        <a th:href="@{'/question.html/'+${question.getId()}}" >点击查看详情</a><br>
                         <span class="text-desc">
                             <span th:text="*{question.commentCount}"></span>个回复&nbsp;◆&nbsp;
                             <span th:text="*{question.viewCount}"></span>次浏览&nbsp;◆&nbsp;

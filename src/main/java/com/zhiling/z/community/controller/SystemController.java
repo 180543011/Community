@@ -7,6 +7,8 @@ import com.zhiling.z.community.service.QuestionService;
 import com.zhiling.z.community.service.UserService;
 import com.zhiling.z.community.utils.VerificationCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,10 @@ import java.util.Map;
  * @Version V1.0
  **/
 @Controller
+@PropertySource("classpath:config/accessToken.properties")
 public class SystemController {
+    @Value("${cookie.maxAge}")
+    private Long maxAge;
     private UserService userService;
     private QuestionService questionService;
 
@@ -83,7 +88,7 @@ public class SystemController {
                 //创建cookie
                 Cookie communityToken = new Cookie("communityToken", loginUser.getToken());
                 //设置cookie过期时间
-                communityToken.setMaxAge(60*30);
+                communityToken.setMaxAge(Math.toIntExact(maxAge));
                 response.addCookie(communityToken);
                 data.put("type","success");
             }else {

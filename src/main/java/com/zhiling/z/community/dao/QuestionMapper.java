@@ -24,6 +24,13 @@ public interface QuestionMapper {
      */
     void insertQuestion(Question question);
 
+
+    /**
+     *  修改的问题
+     * @param question 修改的问题
+     */
+    void updateQuestion(Question question);
+
     /**
      *  通过id获取问题对象
      * @param id 问题id

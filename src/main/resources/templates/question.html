@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发布 - 39社区</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<div th:insert="attachNavigation.html :: navigation"></div>
+<!-- 主体部分 -->
+<div class="container-fluid main" >
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <h1 th:text="${question.title}"></h1>
+            <span class="community-menu">
+                作者&nbsp;<span th:text="${question.user.name}"></span>&nbsp;|&nbsp;
+                发布于<span th:text="*{#dates.format(question.gmtCreate,'yyyy年MM月dd日 HH:mm')}"></span>&nbsp;|&nbsp;
+                阅读数：&nbsp;<span th:text="${question.viewCount}"></span>
+            </span>
+            <hr>
+            <p th:text="${question.description}"></p>
+            <hr>
+            <a th:if="${session.loginUser != null && session.loginUser.id == question.creator}"
+                th:href="@{'/publish.html/'+${question.id}}">
+                <span class="glyphicon glyphicon-pencil"></span> 编辑
+            </a>
+        </div>
+        <div class="col-lg-1 col-md-1 visible-lg-block visible-md-block"></div>
+        <div class="col-lg-3 col-md-3">
+            <h3>发起人</h3>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <a>
+                            <img class="media-object img-circle" src=""
+                                 th:src="*{question.user.avatarUrl}" alt="编者头像">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="*{question.user.name}"></h4>
+                        <span class="text-desc">
+                            <span th:text="${question.user.bio}"></span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <hr>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -31,6 +31,9 @@ public class AuthorizeController {
     @Value("${github.client.uri}")
     private String clientUrl;
 
+    @Value("${cookie.maxAge}")
+    private Long maxAge;
+
     private GitHubProvider gitHubProvider;
     private UserService userService = UserServiceUtil.getUserService();
 
@@ -69,12 +72,13 @@ public class AuthorizeController {
                 user.setGmtModify(user.getGmtCreate());
                 user.setAvatarUrl(gitHubUser.getAvatarUrl());
                 user.setUserName(user.getToken());
+                user.setBio(gitHubUser.getBio());
                 userService.insertUser(user);
             }
             //创建cookie
             Cookie communityToken = new Cookie("communityToken", user.getToken());
             //设置cookie过期时间
-            communityToken.setMaxAge(60*30);
+            communityToken.setMaxAge(Math.toIntExact(maxAge));
             response.addCookie(communityToken);
             return "redirect:/index";
         }else {
