@@ -26,6 +26,21 @@ public interface QuestionService {
     Question getQuestionById(Long id);
 
     /**
+     *  查询用户发布问题
+     * @param creator 创建者id
+     * @param pageDTO 分页对象
+     * @return 问题集合
+     */
+    List<Question> listQuestionByUserId(Integer creator, PageDTO pageDTO);
+
+    /**
+     *  统计用户发布的记录数
+     * @param creator 创建者
+     * @return 记录数
+     */
+    int countQuestionByUserId(Integer creator);
+
+    /**
      *  返回所有question集合
      *  并对pageDTO对象属性进行处理
      * @param pageDTO 分页对象

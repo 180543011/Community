@@ -5,6 +5,7 @@ import com.zhiling.z.community.model.User;
 import com.zhiling.z.community.provider.GitHubProvider;
 import com.zhiling.z.community.dto.GitHubUser;
 import com.zhiling.z.community.service.UserService;
+import com.zhiling.z.community.utils.UserServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -31,7 +32,7 @@ public class AuthorizeController {
     private String clientUrl;
 
     private GitHubProvider gitHubProvider;
-    private UserService userService;
+    private UserService userService = UserServiceUtil.getUserService();
 
     @Autowired
     public void setGitHubProvider(GitHubProvider gitHubProvider) {
@@ -56,20 +57,24 @@ public class AuthorizeController {
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
         if (gitHubUser != null){
             //登录成功
-            User user = new User();
-            //生成唯一识别码
-            String token = UUID.randomUUID().toString();
-            user.setToken(token);
-            user.setName(gitHubUser.getName());
-            user.setAccountId(String.valueOf(gitHubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModify(user.getGmtCreate());
-            user.setAvatarUrl(gitHubUser.getAvatarUrl());
-            userService.insertUser(user);
+            //判断是否存在AccountId
+            User user = userService.getUserByAccountId(String.valueOf(gitHubUser.getId()));
+            if (user == null){
+                user = new User();
+                //生成唯一识别码
+                user.setToken(UUID.randomUUID().toString());
+                user.setName(gitHubUser.getName());
+                user.setAccountId(String.valueOf(gitHubUser.getId()));
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModify(user.getGmtCreate());
+                user.setAvatarUrl(gitHubUser.getAvatarUrl());
+                user.setUserName(user.getToken());
+                userService.insertUser(user);
+            }
             //创建cookie
-            Cookie communityToken = new Cookie("communityToken", token);
+            Cookie communityToken = new Cookie("communityToken", user.getToken());
             //设置cookie过期时间
-            communityToken.setMaxAge(60*5);
+            communityToken.setMaxAge(60*30);
             response.addCookie(communityToken);
             return "redirect:/index";
         }else {

@@ -4,6 +4,7 @@ import com.zhiling.z.community.dao.QuestionMapper;
 import com.zhiling.z.community.dto.PageDTO;
 import com.zhiling.z.community.model.Question;
 import com.zhiling.z.community.service.QuestionService;
+import com.zhiling.z.community.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,18 @@ public class QuestionServiceImpl implements QuestionService {
         return questionMapper.getQuestionById(id);
     }
 
+    @Override
+    public List<Question> listQuestionByUserId(Integer creator, PageDTO pageDTO) {
+        pageDTO.setCounts(questionMapper.countQuestionByUserId(creator));
+        PageUtil.dealWithPage(pageDTO);
+        return questionMapper.listQuestionByUserId(creator,pageDTO);
+    }
+
+    @Override
+    public int countQuestionByUserId(Integer creator) {
+        return questionMapper.countQuestionByUserId(creator);
+    }
+
     /**
      *  返回所有question集合
      *  并对pageDTO对象属性进行处理
@@ -42,43 +55,8 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public List<Question> listQuestion(PageDTO pageDTO) {
-        //获取分页条个数
-        //获取并判断分页条数字是否符合情况
-        int totalPage = pageDTO.getPageIndex() - 3;
-        if (totalPage<=0){
-            totalPage = 1;
-        }
-        int endPage = pageDTO.getPageIndex() + 3;
-        if (endPage>pageDTO.getPageCount()){
-            endPage = pageDTO.getPageCount();
-        }
-        for (int i = totalPage; i<= endPage; i++){
-            pageDTO.getPages().add(i);
-        }
-        //当前页为第一页不显示上一页按钮
-        if (pageDTO.getPageIndex()==1){
-            pageDTO.setShowPrevious(false);
-        }else {
-            pageDTO.setShowPrevious(true);
-        }
-        //当前页为最后一页不显示下一页按钮
-        if (pageDTO.getPageIndex().equals(pageDTO.getPageCount())){
-            pageDTO.setShowNext(false);
-        }else {
-            pageDTO.setShowNext(true);
-        }
-        //是否展示第一页
-        if (pageDTO.getPages().contains(1)){
-            pageDTO.setShowFirstPage(false);
-        }else {
-            pageDTO.setShowFirstPage(true);
-        }
-        //是否展示最后一页
-        if (pageDTO.getPages().contains(pageDTO.getPageCount())){
-            pageDTO.setShowEndPage(false);
-        }else {
-            pageDTO.setShowEndPage(true);
-        }
+        pageDTO.setCounts(questionMapper.countQuestion());
+        PageUtil.dealWithPage(pageDTO);
         return questionMapper.listQuestion(pageDTO);
     }
 

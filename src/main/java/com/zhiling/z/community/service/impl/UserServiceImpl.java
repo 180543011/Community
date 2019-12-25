@@ -26,7 +26,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User login(User user) {
+        //判断用户名密码不为空
+        if (user.getUserName()!=null && !"".equals(user.getUserName()) &&
+                user.getPassword()!=null && !"".equals(user.getPassword())){
+            return userMapper.getUserByUserName(user.getUserName());
+        }else {
+            return null;
+        }
+    }
+
+    @Override
     public User getUserByToken(String token) {
         return userMapper.getUserByToken(token);
+    }
+
+    @Override
+    public User getUserByAccountId(String accountId) {
+        return userMapper.getUserByAccountId(accountId);
     }
 }

@@ -37,6 +37,13 @@
     <select id="countQuestion" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM questions
     </select>
+    <select id="listQuestionByUserId" resultMap="QuestionDTO">
+        SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` WHERE creator = #{creator}
+         LIMIT #{page.index},#{page.pageSize}
+    </select>
+    <select id="countQuestionByUserId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM questions WHERE creator = #{creator}
+    </select>
 
 
 </mapper>

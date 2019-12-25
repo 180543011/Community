@@ -32,6 +32,21 @@ public interface QuestionMapper {
     Question getQuestionById(@Param("id") Long id);
 
     /**
+     *  查询用户发布问题
+     * @param creator 创建者id
+     * @param pageDTO 分页对象
+     * @return 问题集合
+     */
+    List<Question> listQuestionByUserId(@Param("creator") Integer creator, @Param("page") PageDTO pageDTO);
+
+    /**
+     *  统计用户发布的记录数
+     * @param creator 创建者
+     * @return 记录数
+     */
+    int countQuestionByUserId(@Param("creator") Integer creator);
+
+    /**
      *  返回所有question集合
      * @param pageDTO 分页对象
      * @return question集合

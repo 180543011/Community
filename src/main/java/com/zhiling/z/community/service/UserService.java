@@ -16,10 +16,24 @@ public interface UserService {
     void insertUser(User user);
 
     /**
+     *  登录用户，登录成功返回登录对象
+     * @param user 用户登录信息
+     * @return 用户对象
+     */
+    User login(User user);
+
+    /**
      *  通过token获取用户信息
      * @param token token值
      * @return 用户对象
      */
     User getUserByToken(String token);
+
+    /**
+     *  通过API识别码获取对象
+     * @param accountId API识别码
+     * @return User对象
+     */
+    User getUserByAccountId(String accountId);
 
 }
