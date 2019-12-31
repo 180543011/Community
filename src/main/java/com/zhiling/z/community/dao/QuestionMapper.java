@@ -21,15 +21,34 @@ public interface QuestionMapper {
     /**
      *  保存问题信息
      * @param question 问题对象
+     * @return 增加记录数
      */
-    void insertQuestion(Question question);
+    int insertQuestion(Question question);
 
+    /**
+     *  增加阅读量
+     * @param id 问题id
+     */
+    void incViewCount(@Param("id") Long id);
+
+    /**
+     *  增加评论
+     * @param id 问题id
+     */
+    void incCommentCount(@Param("id") Long id);
+
+    /**
+     *  增加收藏
+     * @param id 问题id
+     */
+    void incLikeCount(@Param("id") Long id);
 
     /**
      *  修改的问题
      * @param question 修改的问题
+     * @return 修改记录数
      */
-    void updateQuestion(Question question);
+    int updateQuestion(Question question);
 
     /**
      *  通过id获取问题对象
@@ -58,7 +77,7 @@ public interface QuestionMapper {
      * @param pageDTO 分页对象
      * @return question集合
      */
-    List<Question> listQuestion(PageDTO pageDTO);
+    List<Question> listQuestion(@Param("page") PageDTO pageDTO);
 
     /**
      *  统计总记录数

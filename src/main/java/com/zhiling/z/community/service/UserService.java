@@ -12,8 +12,9 @@ public interface UserService {
     /**
      *  创建用户
      * @param user 用户
+     * @return 增加记录数
      */
-    void insertUser(User user);
+    int insertUser(User user);
 
     /**
      *  登录用户，登录成功返回登录对象

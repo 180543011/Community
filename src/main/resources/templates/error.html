@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>39社区</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<div th:insert="attachNavigation.html :: navigation"></div>
+<!-- 主体部分 -->
+<div class="jumbotron">
+    <h1>出错了！！</h1>
+    <p th:text="${message}">应该是出了问题</p>
+    <p><a class="btn btn-primary btn-lg" href="/index.html" role="button">返回主页</a></p>
+</div>
+</body>
+</html>

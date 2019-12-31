@@ -1,5 +1,7 @@
 package com.zhiling.z.community.controller;
 
+import com.zhiling.z.community.controller.exception.CustomizeErrorCodeEnum;
+import com.zhiling.z.community.controller.exception.CustomizeException;
 import com.zhiling.z.community.model.Question;
 import com.zhiling.z.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,11 @@ public class QuestionController {
 
     @GetMapping("question.html/{id}")
     public String toQuestion(Model model, @PathVariable(name = "id") Long id){
+        questionService.incViewCount(id);
         Question question = questionService.getQuestionById(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCodeEnum.QUESTION_NOT_FOUND);
+        }
         model.addAttribute("question",question);
         return "question";
     }

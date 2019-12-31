@@ -62,23 +62,39 @@
         </set>
             WHERE id = #{id}
     </update>
+    <update id="incViewCount">
+        UPDATE questions SET viewCount = viewCount + 1 WHERE id = #{id}
+    </update>
+    <update id="incCommentCount">
+        UPDATE questions SET commentCount = commentCount + 1 WHERE id = #{id}
+    </update>
+    <update id="incLikeCount">
+        UPDATE questions SET likeCount = likeCount + 1 WHERE id = #{id}
+    </update>
 
     <select id="getQuestionById" resultMap="QuestionDTO">
         SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` WHERE q.id = #{id}
     </select>
     <select id="listQuestion" resultMap="QuestionDTO" parameterType="com.zhiling.z.community.dto.PageDTO" >
-        SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` LIMIT #{index},#{pageSize}
+        SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` <include refid="limit" />
     </select>
     <select id="countQuestion" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM questions
     </select>
     <select id="listQuestionByUserId" resultMap="QuestionDTO">
         SELECT q.*,u.* FROM questions q LEFT JOIN users u ON q.`creator` = u.`id` WHERE creator = #{creator}
-         LIMIT #{page.index},#{page.pageSize}
+         <include refid="limit"/>
     </select>
     <select id="countQuestionByUserId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM questions WHERE creator = #{creator}
     </select>
 
+    <sql id="limit">
+        <if test="page.pageSize != 0">
+            <if test="page.pageSize != null">
+                LIMIT #{page.index},#{page.pageSize}
+            </if>
+        </if>
+    </sql>
 
 </mapper>

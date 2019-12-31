@@ -84,7 +84,6 @@ public class SystemController {
             //验证码正确，验证用户信息是否正确
             User loginUser = userService.login(user);
             if (loginUser!=null && user.getPassword().equals(loginUser.getPassword())){
-                System.out.println("loginUser = " + loginUser);
                 //创建cookie
                 Cookie communityToken = new Cookie("communityToken", loginUser.getToken());
                 //设置cookie过期时间
@@ -102,6 +101,9 @@ public class SystemController {
         return data;
     }
 
+    /**
+     *  用户登出
+     */
     @RequestMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response){
         //创建cookie

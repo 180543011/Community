@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiling.z.community.dao.CommentMapper">
+
+  <resultMap id="Base_Comment" type="com.zhiling.z.community.model.Comment">
+    <id column="id" property="id" />
+    <result property="commentator" column="commentator"/>
+    <result column="parentId" property="parentId"/>
+    <result column="type" property="type"/>
+    <result column="context" property="context"/>
+    <result column="gmtCreate" property="gmtCreate"/>
+    <result column="gmtModify" property="gmtModify"/>
+    <result column="likeCount" property="likeCount"/>
+    <association property="user" javaType="com.zhiling.z.community.model.User" column="commentator" >
+      <id property="id" column="commentator" />
+      <result property="name" column="name" />
+      <result property="avatarUrl" column="avatarUrl" />
+    </association>
+  </resultMap>
+
+  <sql id="limit">
+    <if test="page.pageSize != 0 and page.pageSize != null">
+      LIMIT #{page.index}, #{page.pageSize}
+    </if>
+  </sql>
+  <sql id="Base_Column_List">
+    c.id, c.parentId, c.`type`, c.commentator, c.context, c.gmtCreate, c.gmtModify, c.likeCount
+  </sql>
+
+  <select id="getByPrimaryKey" parameterType="java.lang.Long" resultMap="Base_Comment">
+    SELECT <include refid="Base_Column_List" />,u.name, u.avatarUrl FROM comments c LEFT JOIN users u ON c.`commentator` = u.`id`
+    where c.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from db_community.comments
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhiling.z.community.model.Comment" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into db_community.comments (parentId, `type`, commentator, 
+      context, gmtCreate, gmtModify)
+    values (#{parentId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{commentator,jdbcType=INTEGER}, 
+      #{context,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=INTEGER}, #{gmtModify,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhiling.z.community.model.Comment" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into db_community.comments
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        parentId,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="commentator != null">
+        commentator,
+      </if>
+      <if test="context != null and context != '' ">
+        context,
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="likeCount != null">
+        likeCount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="commentator != null">
+        #{commentator,jdbcType=INTEGER},
+      </if>
+      <if test="context != null and context != ''">
+        #{context,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=BIGINT},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhiling.z.community.model.Comment">
+    <!--@mbg.generated-->
+    update db_community.comments
+    <set>
+      <if test="parentId != null">
+        parentId = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="commentator != null">
+        commentator = #{commentator,jdbcType=INTEGER},
+      </if>
+      <if test="context != null">
+        context = #{context,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gmtCreate != 0 and gmtCreate != null ">
+        gmtCreate = #{gmtCreate,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModify != 0 and gmtModify != null">
+        gmtModify = #{gmtModify,jdbcType=BIGINT},
+      </if>
+      <if test="likeCount != null">
+        likeCount = #{likeCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhiling.z.community.model.Comment">
+    <!--@mbg.generated-->
+    update db_community.comments
+    set parentId = #{parentId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER},
+      commentator = #{commentator,jdbcType=INTEGER},
+      context = #{context,jdbcType=LONGVARCHAR},
+      gmtCreate = #{gmtCreate,jdbcType=INTEGER},
+      gmtModify = #{gmtModify,jdbcType=BIGINT},
+      likeCount = #{likeCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="listByUserId" resultType="com.zhiling.z.community.model.Comment">
+        SELECT * FROM comments WHERE commentator = #{id,jdbcType=INTEGER} <include refid="limit" />
+  </select>
+</mapper>

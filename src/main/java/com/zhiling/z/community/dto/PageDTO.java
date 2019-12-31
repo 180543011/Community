@@ -51,7 +51,7 @@ public class PageDTO {
     /**
      *  显示的页面数
      */
-    private List<Integer> pages = new ArrayList<>();
+    private List<Integer> pages;
 
     /**
      *  获取页面偏移量

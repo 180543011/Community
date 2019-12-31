@@ -1,5 +1,6 @@
 package com.zhiling.z.community.controller;
 
+import com.zhiling.z.community.controller.exception.CustomizeException;
 import com.zhiling.z.community.dto.AccessTokenDTO;
 import com.zhiling.z.community.model.User;
 import com.zhiling.z.community.provider.GitHubProvider;
@@ -59,6 +60,7 @@ public class AuthorizeController {
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
         if (gitHubUser != null){
+            int war = 0;
             //登录成功
             //判断是否存在AccountId
             User user = userService.getUserByAccountId(String.valueOf(gitHubUser.getId()));
@@ -73,17 +75,22 @@ public class AuthorizeController {
                 user.setAvatarUrl(gitHubUser.getAvatarUrl());
                 user.setUserName(user.getToken());
                 user.setBio(gitHubUser.getBio());
-                userService.insertUser(user);
+                war = userService.insertUser(user);
             }
-            //创建cookie
-            Cookie communityToken = new Cookie("communityToken", user.getToken());
-            //设置cookie过期时间
-            communityToken.setMaxAge(Math.toIntExact(maxAge));
-            response.addCookie(communityToken);
-            return "redirect:/index";
+            if (war >0){
+                //创建cookie
+                Cookie communityToken = new Cookie("communityToken", user.getToken());
+                //设置cookie过期时间
+                communityToken.setMaxAge(Math.toIntExact(maxAge));
+                response.addCookie(communityToken);
+                return "redirect:/index";
+            }else {
+                //登录失败，重新登录
+                throw new CustomizeException("系统异常，稍后再试");
+            }
         }else {
             //登录失败，重新登录
-            return "redirect:/";
+            throw new CustomizeException("连接超时，稍后再试");
         }
     }
 

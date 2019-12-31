@@ -19,10 +19,11 @@ public interface UserMapper {
     /**
      *  创建用户
      * @param user 用户
+     * @return 增加记录数
      */
     @Insert("INSERT INTO users(name, accountId, token, userName, gmtCreate, gmtModify, avatarUrl) VALUES(#{name}, " +
             "#{accountId}, #{token}, #{userName}, #{gmtCreate}, #{gmtModify}, #{avatarUrl})")
-    void insertUser(User user);
+    int insertUser(User user);
 
     /**
      *  通过用户名查找对象

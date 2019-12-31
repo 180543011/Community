@@ -1,5 +1,8 @@
 package com.zhiling.z.community.controller;
 
+import com.zhiling.z.community.controller.exception.CustomizeErrorCodeEnum;
+import com.zhiling.z.community.controller.exception.CustomizeException;
+import com.zhiling.z.community.controller.exception.ICustomizeErrorCode;
 import com.zhiling.z.community.model.Question;
 import com.zhiling.z.community.model.User;
 import com.zhiling.z.community.service.QuestionService;
@@ -34,6 +37,9 @@ public class PublishController {
     public String toPublish(Model model, @PathVariable(name = "id", required = false) Long id){
         if (id != null && id > 0){
             Question question = questionService.getQuestionById(id);
+            if (question == null){
+                throw new CustomizeException(CustomizeErrorCodeEnum.QUESTION_NOT_FOUND);
+            }
             model.addAttribute("id",id);
             model.addAttribute("title", question.getTitle());
             model.addAttribute("description",question.getDescription());
@@ -55,14 +61,20 @@ public class PublishController {
             if (loginUser != null){
                 if (question.getId() != null && question.getId() != 0){
                     question.setGmtModify(System.currentTimeMillis());
-                    questionService.updateQuestion(question);
-                    return "redirect:/question.html/"+question.getId();
+                    int war = questionService.updateQuestion(question);
+                    if (war > 0){
+                        return "redirect:/question.html/"+question.getId();
+                    }else {
+                        throw new CustomizeException(CustomizeErrorCodeEnum.QUESTION_NOT_FOUND);
+                    }
                 }else {
                     question.setCreator(loginUser.getId());
                     question.setGmtCreate(System.currentTimeMillis());
                     question.setGmtModify(question.getGmtCreate());
-                    questionService.insertQuestion(question);
-                    return "redirect:/index";
+                    int war = questionService.insertQuestion(question);
+                    if (war > 0){
+                        return "redirect:/index";
+                    }
                 }
             }else {
                 request.setAttribute("massage","用户未登录或登录已经过期");

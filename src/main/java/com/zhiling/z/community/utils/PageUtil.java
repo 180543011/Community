@@ -2,18 +2,28 @@ package com.zhiling.z.community.utils;
 
 import com.zhiling.z.community.dto.PageDTO;
 
+import java.util.ArrayList;
+
 /**
+ *  分页工具类
+ *  对分页对象进行处理
  * @Author zlhl
  * @Date 2019/12/24
  * @Version V1.0
  **/
 public class PageUtil {
 
+    public static void dealWithPage(PageDTO pageDTO){
+        PageUtil.dealWithPage(pageDTO,7);
+    }
+
     /**
      *  对分页对象进行处理
      * @param pageDTO 分页对象
      */
-    public static void dealWithPage(PageDTO pageDTO){
+    public static void dealWithPage(PageDTO pageDTO, int displayNumber){
+        pageDTO.setPages(new ArrayList<>());
+        int number = displayNumber/2;
         //判断页面行数是否超标
         if (pageDTO.getPageSize()<=0){
             pageDTO.setPageSize(10);
@@ -28,11 +38,11 @@ public class PageUtil {
         }
         //获取分页条个数
         //获取并判断分页条数字是否符合情况
-        int totalPage = pageDTO.getPageIndex() - 3;
+        int totalPage = pageDTO.getPageIndex() - number;
         if (totalPage<=0){
             totalPage = 1;
         }
-        int endPage = pageDTO.getPageIndex() + 3;
+        int endPage = pageDTO.getPageIndex() + number;
         if (endPage>pageDTO.getPageCount()){
             endPage = pageDTO.getPageCount();
         }

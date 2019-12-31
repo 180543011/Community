@@ -26,13 +26,28 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void insertQuestion(Question question) {
-        questionMapper.insertQuestion(question);
+    public int insertQuestion(Question question) {
+        return questionMapper.insertQuestion(question);
     }
 
     @Override
-    public void updateQuestion(Question question) {
-        questionMapper.updateQuestion(question);
+    public int updateQuestion(Question question) {
+        return questionMapper.updateQuestion(question);
+    }
+
+    @Override
+    public void incViewCount(Long id) {
+        questionMapper.incViewCount(id);
+    }
+
+    @Override
+    public void incCommentCount(Long id) {
+        questionMapper.incCommentCount(id);
+    }
+
+    @Override
+    public void incLikeCount(Long id) {
+        questionMapper.incLikeCount(id);
     }
 
     @Override
@@ -42,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> listQuestionByUserId(Integer creator, PageDTO pageDTO) {
-        pageDTO.setCounts(questionMapper.countQuestionByUserId(creator));
+        pageDTO.setCounts(this.countQuestionByUserId(creator));
         PageUtil.dealWithPage(pageDTO);
         return questionMapper.listQuestionByUserId(creator,pageDTO);
     }
@@ -60,8 +75,8 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public List<Question> listQuestion(PageDTO pageDTO) {
-        pageDTO.setCounts(questionMapper.countQuestion());
-        PageUtil.dealWithPage(pageDTO);
+        pageDTO.setCounts(this.countQuestion());
+        PageUtil.dealWithPage(pageDTO, 5);
         return questionMapper.listQuestion(pageDTO);
     }
 
