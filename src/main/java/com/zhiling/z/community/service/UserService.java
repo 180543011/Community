@@ -24,6 +24,13 @@ public interface UserService {
     User login(User user);
 
     /**
+     *  注册用户，注册成功返回Token
+     * @param user 用户
+     * @return 用户对象
+     */
+    String register(User user);
+
+    /**
      *  通过token获取用户信息
      * @param token token值
      * @return 用户对象

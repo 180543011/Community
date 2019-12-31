@@ -101,6 +101,25 @@ public class SystemController {
         return data;
     }
 
+    @PostMapping("/register")
+    @ResponseBody
+    public Map<String, String> registerUser(User user, HttpServletResponse response){
+        Map<String, String> data = new HashMap<>(2);
+        String token = userService.register(user);
+        if (token != null){
+            //创建cookie
+            Cookie communityToken = new Cookie("communityToken", token);
+            //设置cookie过期时间
+            communityToken.setMaxAge(Math.toIntExact(maxAge));
+            response.addCookie(communityToken);
+            data.put("type","success");
+        }else {
+            data.put("type","error");
+            data.put("message","用户名已存在");
+        }
+        return data;
+    }
+
     /**
      *  用户登出
      */

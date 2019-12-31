@@ -21,8 +21,8 @@ public interface UserMapper {
      * @param user 用户
      * @return 增加记录数
      */
-    @Insert("INSERT INTO users(name, accountId, token, userName, gmtCreate, gmtModify, avatarUrl) VALUES(#{name}, " +
-            "#{accountId}, #{token}, #{userName}, #{gmtCreate}, #{gmtModify}, #{avatarUrl})")
+    @Insert("INSERT INTO users(name, accountId, token, bio, userName, gmtCreate, gmtModify, avatarUrl) VALUES(" +
+            "#{name}, #{accountId}, #{token}, #{bio}, #{userName}, #{gmtCreate}, #{gmtModify}, #{avatarUrl})")
     int insertUser(User user);
 
     /**

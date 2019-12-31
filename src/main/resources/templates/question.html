@@ -30,7 +30,11 @@
                 <span class="glyphicon glyphicon-pencil"></span> 编辑
             </a>
             <hr>
-
+            <form method="post" action="" >
+                <input type="hidden" name="questionId" th:value="${question.id}" />
+                <input type="hidden" name="creator" th:value="${question.creator}" />
+                <input type="hidden" name="commentator" th:value="${session.loginUser.id}" />
+            </form>
         </div>
         <div class="col-lg-1 col-md-1 visible-lg-block visible-md-block"></div>
         <div class="col-lg-3 col-md-3">
@@ -39,7 +43,7 @@
                 <li class="media">
                     <div class="media-left">
                         <a>
-                            <img class="media-object img-circle" src=""
+                            <img class="media-object img-circle" src="/images/default.jpg"
                                  th:src="*{question.user.avatarUrl}" alt="编者头像">
                         </a>
                     </div>
