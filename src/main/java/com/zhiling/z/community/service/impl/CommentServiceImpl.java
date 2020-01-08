@@ -1,6 +1,7 @@
 package com.zhiling.z.community.service.impl;
 
 import com.zhiling.z.community.dto.PageDTO;
+import com.zhiling.z.community.utils.PageUtil;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.zhiling.z.community.dao.CommentMapper;
@@ -51,5 +52,12 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<Comment> listByUserId(Integer id, PageDTO page) {
         return commentMapper.listByUserId(id, page);
+    }
+
+    @Override
+    public List<Comment> listByQuestionPage(Long questionId, Integer type, PageDTO page) {
+        page.setCounts(commentMapper.countByQuestionPage(questionId,type));
+        PageUtil.dealWithPage(page);
+        return commentMapper.listByQuestionPage(questionId, type, page);
     }
 }

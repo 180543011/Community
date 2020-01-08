@@ -1,6 +1,7 @@
 CREATE TABLE `db_community`.`comments`
 (
     `id`          BIGINT NOT NULL AUTO_INCREMENT COMMENT '评论id',
+    `questionId`  BIGINT NOT NULL DEFAULT 0 COMMENT '回复问题id',
     `parentId`    BIGINT NOT NULL DEFAULT 0 COMMENT '评论父id',
     `type`        INT    NOT NULL COMMENT '父类类型',
     `commentator` INT    NOT NULL COMMENT '评论人id',

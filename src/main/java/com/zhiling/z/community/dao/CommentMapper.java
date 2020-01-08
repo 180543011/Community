@@ -65,6 +65,24 @@ public interface CommentMapper {
     Comment getByPrimaryKey(@Param("id") Long id);
 
     /**
+     *  查询问题下的评论
+     * @param questionId 问题id
+     * @param type  回复类型
+     * @param page 分页对象
+     * @return 所有回复
+     */
+    List<Comment> listByQuestionPage(@Param("questionId") Long questionId, @Param("type") Integer type,
+                                     @Param("page") PageDTO page);
+
+    /**
+     *  统计问题下的评论数
+     * @param questionId 问题id
+     * @param type  回复类型
+     * @return 所有回复数
+     */
+    int countByQuestionPage(@Param("questionId") Long questionId, @Param("type") Integer type);
+
+    /**
      * 查询用户所有回复
      *
      * @param id   用户id

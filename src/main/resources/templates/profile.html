@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/community.js"></script>
 </head>
 <body>
 <!-- 头部 -->
@@ -18,8 +19,8 @@
         <div class="col-lg-8 col-md-8">
             <h1 th:text="${sectionName}"></h1>
             <hr>
-            <ul class="media-list">
-                <li class="media" th:each="question : ${questions}">
+            <ul class="media-list list-group">
+                <li class="media list-group-item" style="margin-top: 0;" th:each="question : ${questions}">
                     <div class="media-left">
                         <a>
                             <img class="media-object img-circle" src=""

@@ -18,10 +18,16 @@ public class Comment implements Serializable {
     private Long id;
 
     /**
+     * 回复问题id
+     */
+    @ApiModelProperty(value="回复问题id")
+    private Long questionId;
+
+    /**
     * 评论父id
     */
     @ApiModelProperty(value="评论父id")
-    private Integer parentId;
+    private Long parentId;
 
     /**
     * 父类类型
@@ -45,7 +51,7 @@ public class Comment implements Serializable {
     * 创建时间
     */
     @ApiModelProperty(value="创建时间")
-    private Integer gmtCreate;
+    private Long gmtCreate;
 
     /**
     * 修改时间

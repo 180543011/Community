@@ -60,4 +60,12 @@ public interface CommentService{
      */
     List<Comment> listByUserId(Integer id, PageDTO page);
 
+    /**
+     *  查询问题下的评论
+     * @param questionId 问题id
+     * @param type  回复类型
+     * @param page 分页对象
+     * @return 所有回复
+     */
+    List<Comment> listByQuestionPage(Long questionId, Integer type, PageDTO page);
 }

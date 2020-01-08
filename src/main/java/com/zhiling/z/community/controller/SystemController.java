@@ -101,6 +101,9 @@ public class SystemController {
         return data;
     }
 
+    /**
+     *  用户注册
+     */
     @PostMapping("/register")
     @ResponseBody
     public Map<String, String> registerUser(User user, HttpServletResponse response){
@@ -123,15 +126,18 @@ public class SystemController {
     /**
      *  用户登出
      */
+    @ResponseBody
     @RequestMapping("/logout")
-    public String logout(HttpSession session, HttpServletResponse response){
+    public Map<String,String> logout(HttpSession session, HttpServletResponse response){
+        Map<String, String> data = new HashMap<>(2);
         //创建cookie
         Cookie communityToken = new Cookie("communityToken",null);
         //设置cookie过期时间
         communityToken.setMaxAge(0);
         response.addCookie(communityToken);
         session.invalidate();
-        return "redirect:/index.html";
+        data.put("type","success");
+        return data;
     }
 
     /**

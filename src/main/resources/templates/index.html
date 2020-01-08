@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/community.js"></script>
 </head>
 <body>
 <!-- 头部 -->
@@ -18,13 +19,10 @@
         <div class="col-lg-8 col-md-8">
             <h1><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h1>
             <hr>
-            <ul class="media-list">
-                <li class="media" th:each="question : ${questions}">
+            <ul class="media-list list-group">
+                <li class="media list-group-item" style="margin-top: 0;" th:each="question : ${questions}">
                     <div class="media-left">
-                        <a>
-                            <img class="media-object img-circle" src=""
-                                 th:src="*{question.user.avatarUrl}" alt="编者头像">
-                        </a>
+                        <img class="media-object img-circle" src="" th:src="*{question.user.avatarUrl}" alt="编者头像">
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading" th:text="*{question.title}">震惊！某男子怎么么</h4>

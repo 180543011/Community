@@ -4,6 +4,7 @@
 
   <resultMap id="Base_Comment" type="com.zhiling.z.community.model.Comment">
     <id column="id" property="id" />
+    <result property="questionId" column="questionId" />
     <result property="commentator" column="commentator"/>
     <result column="parentId" property="parentId"/>
     <result column="type" property="type"/>
@@ -24,29 +25,35 @@
     </if>
   </sql>
   <sql id="Base_Column_List">
-    c.id, c.parentId, c.`type`, c.commentator, c.context, c.gmtCreate, c.gmtModify, c.likeCount
+    c.id, c.questionId, c.parentId, c.`type`, c.commentator, c.context, c.gmtCreate, c.gmtModify, c.likeCount
   </sql>
 
   <select id="getByPrimaryKey" parameterType="java.lang.Long" resultMap="Base_Comment">
-    SELECT <include refid="Base_Column_List" />,u.name, u.avatarUrl FROM comments c LEFT JOIN users u ON c.`commentator` = u.`id`
-    where c.id = #{id,jdbcType=BIGINT}
+    SELECT <include refid="Base_Column_List" />,u.name, u.avatarUrl FROM comments c LEFT JOIN users u
+      ON c.`commentator` = u.`id` where c.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from db_community.comments
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhiling.z.community.model.Comment" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zhiling.z.community.model.Comment"
+          useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into db_community.comments (parentId, `type`, commentator, 
-      context, gmtCreate, gmtModify)
-    values (#{parentId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{commentator,jdbcType=INTEGER}, 
-      #{context,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=INTEGER}, #{gmtModify,jdbcType=BIGINT})
+    insert into db_community.comments (questionId, parentId, `type`, commentator,
+        context, gmtCreate, gmtModify)
+    values (#{questionId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER},
+        #{commentator,jdbcType=INTEGER}, #{context,jdbcType=LONGVARCHAR}, #{gmtCreate,jdbcType=BIGINT},
+        #{gmtModify,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhiling.z.community.model.Comment" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zhiling.z.community.model.Comment"
+          useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into db_community.comments
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="questionId != null">
+        questionId,
+      </if>
       <if test="parentId != null">
         parentId,
       </if>
@@ -97,20 +104,23 @@
     <!--@mbg.generated-->
     update db_community.comments
     <set>
+      <if test="questionId != null">
+        questionId = #{questionId,jdbcType=BIGINT},
+      </if>
       <if test="parentId != null">
-        parentId = #{parentId,jdbcType=INTEGER},
+        parentId = #{parentId,jdbcType=BIGINT},
       </if>
       <if test="type != null">
         `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="commentator != null">
-        commentator = #{commentator,jdbcType=INTEGER},
+        commentator = #{commentator,jdbcType=BIGINT},
       </if>
       <if test="context != null">
         context = #{context,jdbcType=LONGVARCHAR},
       </if>
       <if test="gmtCreate != 0 and gmtCreate != null ">
-        gmtCreate = #{gmtCreate,jdbcType=INTEGER},
+        gmtCreate = #{gmtCreate,jdbcType=BIGINT},
       </if>
       <if test="gmtModify != 0 and gmtModify != null">
         gmtModify = #{gmtModify,jdbcType=BIGINT},
@@ -124,16 +134,42 @@
   <update id="updateByPrimaryKey" parameterType="com.zhiling.z.community.model.Comment">
     <!--@mbg.generated-->
     update db_community.comments
-    set parentId = #{parentId,jdbcType=INTEGER},
+    set questionId = #{questionId,jdbcType=BIGINT},
+        parentId = #{parentId,jdbcType=BIGINT},
       `type` = #{type,jdbcType=INTEGER},
-      commentator = #{commentator,jdbcType=INTEGER},
+      commentator = #{commentator,jdbcType=BIGINT},
       context = #{context,jdbcType=LONGVARCHAR},
-      gmtCreate = #{gmtCreate,jdbcType=INTEGER},
+      gmtCreate = #{gmtCreate,jdbcType=BIGINT},
       gmtModify = #{gmtModify,jdbcType=BIGINT},
       likeCount = #{likeCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="listByUserId" resultType="com.zhiling.z.community.model.Comment">
         SELECT * FROM comments WHERE commentator = #{id,jdbcType=INTEGER} <include refid="limit" />
+  </select>
+
+  <select id="listByQuestionPage" resultMap="Base_Comment">
+    SELECT <include refid="Base_Column_List" />,u.name, u.avatarUrl FROM comments c LEFT JOIN users u
+    ON c.`commentator` = u.`id`
+    <where>
+      <if test="questionId != 0 and questionId != null">
+        AND c.questionId = #{questionId,jdbcType=BIGINT}
+      </if>
+      <if test="type != 0 and type != null">
+        AND c.type = #{type,jdbcType=INTEGER}
+      </if>
+    </where>
+    <include refid="limit" />
+  </select>
+  <select id="countByQuestionPage" resultType="int">
+    SELECT COUNT(*) FROM comments
+    <where>
+      <if test="questionId != 0 and questionId != null">
+        AND questionId = #{questionId,jdbcType=BIGINT}
+      </if>
+      <if test="type != 0 and type != null">
+        AND type = #{type,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
 </mapper>

@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="/css/community.css">
     <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/community.js"></script>
 </head>
 <body>
 <!-- 头部 -->
 <div th:insert="attachNavigation.html :: navigation"></div>
 <!-- 主体部分 -->
-<div class="container-fluid main" >
+<div class="container-fluid main">
     <div class="row">
         <div class="col-lg-8 col-md-8">
             <h1><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发布</h1>
@@ -23,24 +24,26 @@
                 <div class="form-group">
                     <label for="title">问题标题(简单扼要):</label>
                     <input type="text" class="form-control col-lg-5" name="title" id="title" th:value="${title}"
-                        placeholder="问题标题……">
+                           placeholder="问题标题……">
                 </div>
                 <div class="form-group">
                     <label for="description">问题补充 (必填，请参照右侧提示):</label>
                     <textarea name="description" id="description" th:text="${description}" class="form-control"
-                        rows="10" cols="30"></textarea>
+                              rows="10" cols="30"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标签:</label>
                     <input type="text" class="form-control" name="tag" id="tag" th:value="${tag}"
                            placeholder="输入标签，以'，'分隔开">
                 </div>
-                <div class="container-fluid main" >
+                <div class="container-fluid main">
                     <div class="row">
                         <div class="alert alert-danger col-lg-8 col-md-8" role="alert" th:if="${massage != null}"
-                            th:text="${massage}">...</div>
+                             th:text="${massage}">...
+                        </div>
                         <button type="submit" class="btn btn-success btn-publish">发布</button>
-                    </div></div>
+                    </div>
+                </div>
             </form>
             <hr>
         </div>
