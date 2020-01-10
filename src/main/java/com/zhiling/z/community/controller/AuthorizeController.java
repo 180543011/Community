@@ -60,7 +60,7 @@ public class AuthorizeController {
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
         if (gitHubUser != null){
-            int war = 0;
+            int war;
             //登录成功
             //判断是否存在AccountId
             User user = userService.getUserByAccountId(String.valueOf(gitHubUser.getId()));
@@ -76,18 +76,24 @@ public class AuthorizeController {
                 user.setUserName(user.getToken());
                 user.setBio(gitHubUser.getBio());
                 war = userService.insertUser(user);
+                if (war >0){
+                    //创建cookie
+                    Cookie communityToken = new Cookie("communityToken", user.getToken());
+                    //设置cookie过期时间
+                    communityToken.setMaxAge(Math.toIntExact(maxAge));
+                    response.addCookie(communityToken);
+                    return "redirect:/index";
+                }else {
+                    //登录失败，重新登录
+                    throw new CustomizeException("系统异常，稍后再试");
+                }
             }
-            if (war >0){
-                //创建cookie
-                Cookie communityToken = new Cookie("communityToken", user.getToken());
-                //设置cookie过期时间
-                communityToken.setMaxAge(Math.toIntExact(maxAge));
-                response.addCookie(communityToken);
-                return "redirect:/index";
-            }else {
-                //登录失败，重新登录
-                throw new CustomizeException("系统异常，稍后再试");
-            }
+            //创建cookie
+            Cookie communityToken = new Cookie("communityToken", user.getToken());
+            //设置cookie过期时间
+            communityToken.setMaxAge(Math.toIntExact(maxAge));
+            response.addCookie(communityToken);
+            return "redirect:/index";
         }else {
             //登录失败，重新登录
             throw new CustomizeException("连接超时，稍后再试");
